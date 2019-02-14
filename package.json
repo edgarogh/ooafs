@@ -1,0 +1,45 @@
+{
+  "name": "ooafs",
+  "version": "0.1.0",
+  "description": "Type-safe Object-Oriented Async FileSystem",
+  "keywords": [
+    "async",
+    "filesystem",
+    "fs",
+    "object",
+    "object-oriented",
+    "oriented"
+  ],
+  "bugs": "https://github.com/edgarogh/ooafs/issues",
+  "repository": "github:edgarogh/ooafs",
+  "license": "MIT",
+  "author": "Edgar Onghena <edgar35740@gmail.com>",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "sort-package-json",
+    "prepublish": "run-s build:ts clean",
+    "test": "mocha --require ts-node/register src/**/*.spec.ts"
+  },
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "npm-run-all": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/fs-extra": "^5.0.5",
+    "@types/mocha": "^5.2.5",
+    "@types/mock-fs": "^3.6.30",
+    "@types/node": "^10.12.18",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "mock-fs": "^4.7.0",
+    "sort-package-json": "^1.18.0",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.2.4"
+  }
+}
