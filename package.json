@@ -1,6 +1,6 @@
 {
   "name": "ooafs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Type-safe Object-Oriented Async FileSystem",
   "keywords": [
     "async",
@@ -22,7 +22,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "clean": "sort-package-json",
-    "prepublish": "run-s build:ts clean",
+    "prepublish": "run-s build clean",
     "test": "mocha --require ts-node/register src/**/*.spec.ts"
   },
   "dependencies": {
