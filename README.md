@@ -28,7 +28,7 @@
 
 ### Import / Require
 ```javascript
-import { Entry, File, Directory } from 'proxery';
+import { Entry, File, Directory } from 'ooafs';
 
 // Create a file wrapper
 const file = new File("./path/file.txt");
