@@ -1,6 +1,6 @@
 {
   "name": "ooafs",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Type-safe Object-Oriented Async FileSystem",
   "keywords": [
     "async",

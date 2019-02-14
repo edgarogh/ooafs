@@ -1,7 +1,7 @@
 import EntryFilter from './EntryFilter';
 import EntryType from './EntryType';
 import mock from 'mock-fs';
-import { Directory, File } from './';
+import { Directory, File, Entry } from './';
 import { expect } from 'chai';
 
 beforeEach(() => {
@@ -46,16 +46,16 @@ afterEach(() => {
 
 describe("Entry", () => {
 
-    const root = new Directory("/fake");
+    const root = new Entry("/fake").d;
 
-    const file = new File("/fake/file.txt");
-    const nonExistingFile = new File("/fake/file_.txt");
-    const newFile = new File("/fake/newfile.txt");
+    const file = new Entry("/fake/file.txt").f;
+    const nonExistingFile = new Entry("/fake/file_.txt").f;
+    const newFile = new Entry("/fake/newfile.txt").f;
 
-    const directory = new Directory("/fake/directory/");
-    const nonExistingDirectory = new Directory("/fake/directory_");
-    const empty = new Directory("/fake/empty");
-    const nonExistingEmpty = new Directory("/fake/empty_");
+    const directory = new Entry("/fake/directory/").d;
+    const nonExistingDirectory = new Entry("/fake/directory_").d;
+    const empty = new Entry("/fake/empty").d;
+    const nonExistingEmpty = new Entry("/fake/empty_").d;
 
     describe("#parsedPath", () => {
         
@@ -129,7 +129,7 @@ describe("Entry", () => {
         });
 
         it("should create directory in multiple directories", async () => {
-            const sub = new Directory("/fake/directory_/sub");
+            const sub = new Entry("/fake/directory_/sub").d;
             expect((await root.createDirectory("directory_/sub")).equals(sub)).to.be.true;
             expect(await sub.exists()).to.be.true;
             expect(await sub.type()).to.equal(EntryType.DIRECTORY);
@@ -152,7 +152,7 @@ describe("Entry", () => {
         });
 
         it("should create file in multiple directories", async () => {
-            const sub = new File("/fake/directory_/file");
+            const sub = new Entry("/fake/directory_/file").f;
             expect((await root.createFile("directory_/file")).equals(sub)).to.be.true;
             expect(await sub.exists()).to.be.true;
             expect(await sub.type()).to.equal(EntryType.FILE);
@@ -170,11 +170,11 @@ describe("Entry", () => {
     describe("#equals()", () => {
 
         it("should return `true`", () => {
-            expect(root.equals(new Directory("/fake/"))).to.be.true;
+            expect(root.equals(new Entry("/fake/").d)).to.be.true;
         });
 
         it("should return `false`", () => {
-            expect(root.equals(new Directory("/fake/abc"))).to.be.false;
+            expect(root.equals(new Entry("/fake/abc").d)).to.be.false;
         });
 
     });
@@ -280,20 +280,20 @@ describe("Entry", () => {
     describe("#remove()", () => {
 
         it("should remove file", async () => {
-            const tmpFile = new File("/fake/tmp/file");
+            const tmpFile = new Entry("/fake/tmp/file").f;
             await tmpFile.remove();
             expect(await tmpFile.exists()).to.be.false;
         });
 
         it("should remove empty directory", async () => {
-            const emptyDir = new Directory("/fake/tmp/empty/");
+            const emptyDir = new Entry("/fake/tmp/empty/").d;
             await emptyDir.remove();
             expect(await emptyDir.exists()).to.be.false;
         });
 
         // Hangs because of incompatibility between mock-fs and fs-extra
         xit("should remove full directory", async () => {
-            const fullDir = new Directory("/fake/tmp/full/");
+            const fullDir = new Entry("/fake/tmp/full/").d;
             await fullDir.remove();
             expect(await fullDir.exists()).to.be.false;
         });

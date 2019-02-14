@@ -6,7 +6,7 @@
 > OOAFS allows you to manipulate the FileSystem in an object-oriented fashion, by using objects to represent FS entries (like Java's File class) and promises instead of the old callbacks. This way, you don't have to spend your time concatenating paths and manually filtering files.
 > Here's a little preview of what can be done:
 > ```typescript
-> let themesFolder = new Directory("./plugins/");
+> let themesFolder = new Entry("./plugins/").d;
 > let themes = await themesFolder.list({ type: EntryType.DIRECTORY });
 > 
 > for (let themeFolder of themes) {
@@ -31,9 +31,9 @@
 import { Entry, File, Directory } from 'ooafs';
 
 // Create a file wrapper
-const file = new File("./path/file.txt");
+const file: File = new Entry("./path/file.txt");
 ```
-> `Entry`, `File` and `Directory` are actually the same exact class. They just have different typings, `Entry` being the actual class. This is explained [here](#typescript-support).
+> `Entry` is a class, while `File` and `Directory` are interfaces implemented by this class. These interfaces can be used for a better type-safety
 
 ## Usage
 The library is completely typed, so as long as you use a relatively good editor like VSCode, you shouldn't have much problems finding the available methods and properties.
@@ -63,23 +63,36 @@ const filter: EntryFilter = {
     }
 };
 
-const picturesDir = new Directory("pictures");
+// const picturesDir: Directory = new Entry("pictures");
+// is the same as:
+const picturesDir = new Entry("pictures").d;
 const images = await picturesDir.listRecursively(filter);
 ```
 
 ### TypeScript support
-**ooafs** in entirely written in TypeScript and thus, is completely typed. In addition to that, when you import the module, you can use three "classes":
+**ooafs** in entirely written in TypeScript and thus, is completely typed. In addition to that, when you import the module, you can use two interfaces, `File` and `Directory` to mask out methods that are not related to files and directories, respectively:
 ```typescript
 import { Entry, File, Directory } from 'ooafs';
-```
-Actually, only `Entry` is a real class. `File` and `Directory` are litterally aliases, but exported under an interface that mask out methods that are unrelated to files or directories, respectively. For instance, if you define a new file:
-```typescript
-const file = new File("/path");
+
+const file: File = new Entry("/path");
 
 // This shows an error: File doesn't have a `list` method
 file.list();
 ```
-Although technically, `file` is an instance of `Entry` and **has** the `list()` method, all the methods that are not related to files are hidden so the compiler shows an error. It's a good way to prevent mistakes. If you ever need to have a plain `Entry`, you can use the `asEntry()` method instead of casting, which would require additional brackets.
+
+Instead of manually casting your `Entry` instance to one of the two interfaces, you can also use a specifically made getter:
+```typescript
+import { Entry } from 'ooafs';
+
+// Add `.f` behind the constructor expression
+// file is now typed as `File`
+const file = new Entry("/path").f;
+
+// This shows an error: File doesn't have a `list` method
+file.list();
+```
+
+Three are available: `.e`, `.d` and `.f`.
 
 ## Bugs & Suggestions
 If you notice any bug or have a suggestion, please tell me about it in the issues, it will help everyone!

@@ -23,6 +23,22 @@ export default class Entry implements File, Directory {
         this.path = path.replace(/[\\/]+$/, '');
     }
 
+    // Utility getters for type-safety
+
+    public get e() {
+        return this as Entry;
+    }
+
+    public get d() {
+        return this as Directory;
+    }
+
+    public get f() {
+        return this as File;
+    }
+
+    // Properties
+
     public get absolutePath() {
         return Path.resolve(this.path);
     }
@@ -39,11 +55,7 @@ export default class Entry implements File, Directory {
         return this.parsedPath.ext;
     }
 
-    // Common methods
-
-    public asEntry() {
-        return this;
-    }
+    // Methods
 
     public child(relativePath: string): Entry {
         return new Entry(Path.join(this.path, relativePath));

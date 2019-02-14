@@ -14,6 +14,14 @@ export interface EntryBase {
      */
     readonly path: string;
 
+    // Utility getters for type-safety
+
+    e: Entry;
+    d: Directory;
+    f: File;
+
+    // Properties
+
     /**
      * Absolute path of the entry
      */
@@ -26,10 +34,7 @@ export interface EntryBase {
      */
     readonly name: string;
 
-    /**
-     * Casts the entry to a generic `Entry`. Only useful with TypeScript
-     */
-    asEntry(): Entry;
+    // Methods
 
     /**
      * Copies the entry to destination
