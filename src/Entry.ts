@@ -207,12 +207,12 @@ export default class Entry implements File, Directory {
      * is specified as a string, a new `Entry` is returned
      */
     public static from(path: string): Entry;
-    public static from<T extends Entry>(path: string | T): T;
-    public static from(path: string | Entry): Entry {
+    public static from<T extends EntryBase>(path: string | T): T;
+    public static from(path: string | EntryBase): Entry {
         if (typeof path === 'string') {
             return new Entry(path);
         } else {
-            return path;
+            return path as Entry;
         }
     }
 
