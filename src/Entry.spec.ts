@@ -319,4 +319,16 @@ describe("Entry", () => {
 
     });
 
+    describe(".from()", () => {
+
+        it("should take an entry as parameter", () => {
+            expect(Entry.from(file).equals(file)).to.be.true;
+        });
+
+        it("should take a string as parameter", () => {
+            expect(Entry.from(file.path).equals(file)).to.be.true;
+        });
+
+    });
+
 });

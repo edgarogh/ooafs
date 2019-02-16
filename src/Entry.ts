@@ -201,4 +201,19 @@ export default class Entry implements File, Directory {
         await Fs.writeFile(this.path, data, options);
     }
 
+    /**
+     * Returns an `Entry`
+     * @param path If the path is already an entry, it is returned as is. If it 
+     * is specified as a string, a new `Entry` is returned
+     */
+    public static from(path: string): Entry;
+    public static from<T extends Entry>(path: string | T): T;
+    public static from(path: string | Entry): Entry {
+        if (typeof path === 'string') {
+            return new Entry(path);
+        } else {
+            return path;
+        }
+    }
+
 }
